@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Who Plays Today? · Women's College Hoops</title>
+<style>
+:root{--p:#73000A;--pd:#3d0006;--on:#fff;--bg:#f5f3f3;--card:#fff;--ink:#1a1a1a;--mut:#6d6767;--line:#e7e1e1;--live:#d6212f}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;padding-bottom:calc(24px + env(safe-area-inset-bottom))}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+header{background:linear-gradient(135deg,var(--p),var(--pd));color:var(--on);padding:calc(14px + env(safe-area-inset-top)) 16px 14px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+h1{margin:0;font-size:22px;letter-spacing:-.3px;line-height:1.15}
+.sub{font-size:12.5px;opacity:.85;margin-top:2px}
+.acts{display:flex;gap:6px;flex-shrink:0}
+.pill{background:rgba(255,255,255,.18);color:var(--on);padding:7px 11px;border-radius:999px;font-size:13px;font-weight:600;white-space:nowrap;max-width:150px;overflow:hidden;text-overflow:ellipsis}
+.pill:active{background:rgba(255,255,255,.3)}
+#q{width:100%;margin-top:12px;padding:11px 14px;border-radius:12px;border:0;font:inherit;background:#fff;color:#111;outline:none}
+#banner{background:#fff4d6;color:#5b4300;padding:9px 16px;font-size:12.5px;border-bottom:1px solid #f0dfa8}
+.simbtn{margin-left:6px;background:#5b4300;color:#fff;border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700}
+.right{display:flex;align-items:center;gap:6px}
+.cal{background:#f1ebeb;border-radius:8px;padding:2px 8px;font-size:14px;line-height:1.4}
+.cal:active{background:#e4dada}
+.opt{display:block;width:calc(100% - 32px);margin:8px 16px;padding:13px;border-radius:12px;background:var(--p);color:var(--on);font-weight:700;text-align:center;text-decoration:none}
+.opt.alt{background:#f1ebeb;color:var(--ink)}
+main{max-width:720px;margin:0 auto;padding:12px 12px 0}
+.datebar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.datebar button.nav{width:42px;height:38px;border-radius:10px;background:var(--card);border:1px solid var(--line);font-size:20px;line-height:1}
+#dateLbl{flex:1;height:38px;border-radius:10px;background:var(--card);border:1px solid var(--line);font-weight:700}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:2px 0 8px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;padding:7px 13px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-size:13.5px;font-weight:600;color:#444}
+.chip small{opacity:.6;font-weight:500;margin-left:3px}
+.chip.on{background:var(--p);border-color:var(--p);color:var(--on)}
+.toggle{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mut);margin:2px 2px 10px}
+.toggle input{width:18px;height:18px;accent-color:var(--p)}
+.sec{font-size:12px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--mut);margin:14px 4px 6px}
+.sec.mine{color:var(--p)}
+.game{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px 12px;margin-bottom:8px;box-shadow:0 1px 0 rgba(0,0,0,.02)}
+.game.mine{border-color:var(--p);box-shadow:inset 4px 0 0 var(--p)}
+.meta{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--mut);margin-bottom:6px;gap:8px}
+.status{font-weight:700;color:#333}
+.status.live{color:var(--live);display:flex;align-items:center;gap:6px}
+.status.live::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--live);animation:pulse 1.2s infinite}
+@keyframes pulse{50%{opacity:.25}}
+.nets{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.net{background:#efeaea;color:#333;border-radius:6px;padding:2px 7px;font-size:11.5px;font-weight:700}
+.row{display:flex;align-items:center;gap:10px;padding:4px 0}
+.logo{width:34px;height:34px;border-radius:50%;flex:0 0 34px;display:grid;place-items:center;color:#fff;font-size:11px;font-weight:800;overflow:hidden;background:#888}
+.logo img{width:100%;height:100%;object-fit:contain;background:#fff}
+.tn{flex:1;min-width:0;font-weight:600;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tn .rk{display:inline-block;min-width:26px;text-align:center;background:var(--p);color:var(--on);border-radius:6px;font-size:12px;font-weight:800;padding:1px 5px;margin-right:6px;vertical-align:1px}
+.tn .rec{color:var(--mut);font-weight:500;font-size:12.5px;margin-left:6px}
+.tn .star{color:var(--p);margin-left:4px}
+.sc{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;min-width:34px;text-align:right}
+.row.lose .tn,.row.lose .sc{color:#8d8787;font-weight:500}
+.empty{text-align:center;color:var(--mut);padding:36px 16px}
+.foot{font-size:12px;color:var(--mut);text-align:center;margin:18px 0 6px}
+#modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:flex-end;justify-content:center;z-index:20}
+#modal.open{display:flex}
+.sheet{background:#fff;width:100%;max-width:560px;max-height:82vh;border-radius:18px 18px 0 0;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom)}
+.sheet h2{margin:0;font-size:18px}
+.sh{display:flex;justify-content:space-between;align-items:center;padding:16px 16px 8px}
+.sh button{font-size:22px;padding:0 6px;color:var(--mut)}
+.sheet .note{padding:0 16px 8px;font-size:13px;color:var(--mut)}
+.sheet input{margin:0 16px 8px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;outline:none}
+.sheet .body{overflow:auto;padding:0 8px 12px}
+.pick{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:9px 8px;border-radius:10px}
+.pick:active,.pick.sel{background:#f3eded}
+.dot{width:22px;height:22px;border-radius:50%;flex:0 0 22px;border:1px solid rgba(0,0,0,.15)}
+.pr{display:flex;align-items:center;gap:10px;padding:8px;border-bottom:1px solid var(--line)}
+.pr b{width:26px;text-align:right}
+.pr span.mv{margin-left:auto;font-size:12px;color:var(--mut)}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <div>
+      <h1>Who Plays Today?</h1>
+      <div class="sub">Women's college basketball · Top 25 watch</div>
+    </div>
+    <div class="acts">
+      <button class="pill" id="btnPoll">AP Top 25</button>
+      <button class="pill" id="btnTeam">★ <span id="favName">Pick team</span></button>
+    </div>
+  </div>
+  <input id="q" type="search" placeholder="Search a team — South Carolina, Gamecocks, SC…" autocomplete="off">
+</header>
+<div id="banner" hidden></div>
+<main>
+  <div class="datebar">
+    <button class="nav" id="prev" aria-label="Previous day">‹</button>
+    <button id="dateLbl"></button>
+    <button class="nav" id="next" aria-label="Next day">›</button>
+  </div>
+  <div class="chips" id="tod"></div>
+  <div class="chips" id="nets"></div>
+  <label class="toggle"><input type="checkbox" id="showAll"> Show every game, not just Top 25</label>
+  <div id="list"></div>
+  <div class="foot" id="foot"></div>
+</main>
+<div id="modal"><div class="sheet" id="sheet"></div></div>
+
+<script>
+"use strict";
+/* ============ settings ============ */
+const API = "/api/espn";               // the proxy in /api/espn.js
+const DEFAULT_THEME = { color: "#73000A", alt: "#000000" }; // Gamecock garnet & black
+const TOD = [["all", "All day"], ["morning", "Morning"], ["afternoon", "Afternoon"], ["evening", "Evening"]];
+
+/* ============ tiny helpers ============ */
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const store = {
+  get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
+};
+const ymd = (d) => d.getFullYear() + String(d.getMonth() + 1).padStart(2, "0") + String(d.getDate()).padStart(2, "0");
+const sameDay = (a, b) => ymd(a) === ymd(b);
+const fmtTime = (ms) => new Date(ms).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+const todOf = (ms) => { const h = new Date(ms).getHours(); return h < 12 ? "morning" : h < 17 ? "afternoon" : "evening"; };
+
+function hexToRgb(h) { h = (h || "").replace("#", ""); if (h.length === 3) h = h.split("").map((c) => c + c).join(""); const n = parseInt(h, 16); return isNaN(n) || h.length !== 6 ? null : [(n >> 16) & 255, (n >> 8) & 255, n & 255]; }
+function lum(hex) { const c = hexToRgb(hex); if (!c) return 0; const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }; return 0.2126 * f(c[0]) + 0.7152 * f(c[1]) + 0.0722 * f(c[2]); }
+function darken(hex, amt) { const c = hexToRgb(hex) || [115, 0, 10]; return "#" + c.map((v) => Math.round(v * (1 - amt)).toString(16).padStart(2, "0")).join(""); }
+
+/* ============ state ============ */
+const S = {
+  date: new Date(), tod: "all", net: "all", q: "", showAll: false,
+  games: [], ranks: new Map(), poll: null, teams: [], fav: store.get("fav"),
+  demo: false, simOn: false, updated: null, timer: null, next: null, nextKey: null,
+};
+
+/* ============ theme (favorite team colors) ============ */
+function applyTheme() {
+  const color = (S.fav && S.fav.color) || DEFAULT_THEME.color;
+  const r = document.documentElement.style;
+  r.setProperty("--p", color);
+  r.setProperty("--pd", darken(color, 0.55));
+  r.setProperty("--on", lum(color) > 0.5 ? "#111" : "#fff");
+  $("favName").textContent = S.fav ? S.fav.short || S.fav.name : "Pick team";
+  const meta = document.querySelector('meta[name=theme-color]') || Object.assign(document.head.appendChild(document.createElement("meta")), { name: "theme-color" });
+  meta.content = color;
+}
+const isFav = (t) => S.fav && t && String(t.id) === String(S.fav.id);
+
+/* ============ data: ESPN -> our own simple shape ============ */
+async function getJSON(path, params) {
+  const url = API + "?" + new URLSearchParams(Object.assign({ path }, params || {}));
+  const res = await fetch(url, { cache: "no-store" });
+  if (!res.ok) throw new Error("HTTP " + res.status);
+  return res.json(); // throws if the server answered with a web page instead of data
+}
+function normTeam(x) {
+  const t = x.team || x;
+  return {
+    id: String(t.id), name: t.displayName || t.name, short: t.shortDisplayName || t.location || t.displayName, abbr: t.abbreviation || "",
+    color: t.color ? "#" + t.color : null, alt: t.alternateColor ? "#" + t.alternateColor : null,
+    logo: t.logo || (t.logos && t.logos[0] && t.logos[0].href) || null,
+  };
+}
+function normEvent(ev) {
+  const c = ev.competitions && ev.competitions[0];
+  if (!c) return null;
+  const mk = (x) => {
+    const t = normTeam(x);
+    const cr = x.curatedRank && x.curatedRank.current;
+    t.rank = S.ranks.get(t.id) || (cr && cr >= 1 && cr <= 25 ? cr : null);
+    const sv = x.score && typeof x.score === "object" ? x.score.value : x.score;
+    t.score = sv != null && sv !== "" ? Number(sv) : null;
+    t.record = x.records && x.records[0] ? x.records[0].summary : "";
+    return t;
+  };
+  const home = c.competitors.find((t) => t.homeAway === "home"), away = c.competitors.find((t) => t.homeAway === "away");
+  if (!home || !away) return null;
+  const nets = new Set();
+  (c.broadcasts || []).forEach((b) => { (b.names || []).forEach((n) => nets.add(n)); if (b.media && b.media.shortName) nets.add(b.media.shortName); });
+  if (!nets.size) (c.geoBroadcasts || []).forEach((b) => b.media && b.media.shortName && nets.add(b.media.shortName));
+  const st = (ev.status && ev.status.type) || (c.status && c.status.type) || {};
+  return {
+    id: ev.id, start: new Date(ev.date).getTime(), state: st.state || "pre", detail: st.shortDetail || "",
+    nets: [...nets], home: mk(home), away: mk(away),
+  };
+}
+async function loadLive() {
+  const [sb, rk, teams] = await Promise.all([
+    getJSON("scoreboard", { dates: ymd(S.date) }),
+    getJSON("rankings").catch(() => null),
+    S.teams.length ? null : getJSON("teams").catch(() => null),
+  ]);
+  S.ranks = new Map();
+  if (rk && rk.rankings) {
+    const ap = rk.rankings.find((r) => /AP/i.test(r.name || r.shortName || "")) || rk.rankings[0];
+    if (ap) { S.poll = ap; (ap.ranks || []).forEach((r) => r.team && S.ranks.set(String(r.team.id), r.current)); }
+  }
+  if (teams) {
+    const list = (teams.sports && teams.sports[0].leagues[0].teams || []).map(normTeam);
+    S.teams = list.sort((a, b) => a.name.localeCompare(b.name));
+  }
+  S.games = (sb.events || []).map(normEvent).filter(Boolean);
+  S.demo = false;
+}
+
+/* ============ preview mode (used when the live feed isn't reachable) ============ */
+// The real AP Top 25 (Week 1) and each ranked team's next game, typed in from the AP page.
+// [rank, name, short, abbr, record, change (+ up / - down), color, alt]
+const AP_WEEK = [
+  [1,"South Carolina Gamecocks","South Carolina","SC","2-0",0,"#73000A","#000000"],
+  [2,"Michigan Wolverines","Michigan","MICH","2-0",3,"#00274C","#FFCB05"],
+  [3,"USC Trojans","USC","USC","3-0",0,"#990000","#FFC72C"],
+  [4,"UConn Huskies","UConn","CONN","2-1",-2,"#000E2F","#FFFFFF"],
+  [5,"Duke Blue Devils","Duke","DUKE","2-0",-1,"#003087","#FFFFFF"],
+  [6,"Texas Longhorns","Texas","TEX","2-0",0,"#BF5700","#FFFFFF"],
+  [7,"Louisville Cardinals","Louisville","LOU","4-0",0,"#AD0000","#000000"],
+  [8,"Vanderbilt Commodores","Vanderbilt","VAN","3-0",0,"#000000","#866D4B"],
+  [9,"LSU Tigers","LSU","LSU","3-0",0,"#461D7C","#FDD023"],
+  [10,"UCLA Bruins","UCLA","UCLA","2-0",1,"#2D68C4","#F2A900"],
+  [10,"Iowa Hawkeyes","Iowa","IOWA","2-1",0,"#000000","#FFCD00"],
+  [12,"Kentucky Wildcats","Kentucky","UK","3-0",2,"#0033A0","#FFFFFF"],
+  [13,"Notre Dame Fighting Irish","Notre Dame","ND","3-0",0,"#0C2340","#C99700"],
+  [14,"Oklahoma Sooners","Oklahoma","OKLA","3-0",7,"#841617","#FDF9D8"],
+  [15,"TCU Horned Frogs","TCU","TCU","4-0",0,"#4D1979","#A3A9AC"],
+  [16,"Washington Huskies","Washington","WASH","2-0",0,"#4B2E83","#B7A57A"],
+  [17,"Ohio State Buckeyes","Ohio State","OSU","3-0",1,"#BB0000","#666666"],
+  [18,"Minnesota Golden Gophers","Minnesota","MINN","3-0",-1,"#7A0019","#FFCC33"],
+  [19,"Oklahoma State Cowgirls","Oklahoma State","OKST","3-0",3,"#FF7300","#000000"],
+  [19,"Maryland Terrapins","Maryland","MD","1-1",1,"#E03A3E","#FFD520"],
+  [21,"Ole Miss Rebels","Ole Miss","MISS","2-0",-2,"#14213D","#CE1126"],
+  [22,"Illinois Fighting Illini","Illinois","ILL","2-0",1,"#E84A27","#13294B"],
+  [23,"North Carolina Tar Heels","North Carolina","UNC","0-2",-11,"#7BAFD4","#13294B"],
+  [24,"West Virginia Mountaineers","West Virginia","WVU","3-0",0,"#002855","#EAAA00"],
+  [25,"Nebraska Cornhuskers","Nebraska","NEB","3-0",1,"#E41C38","#FFFFFF"],
+];
+// [tip-off (Eastern), ranked team, "home" or "away", opponent (abbr of a ranked team, or plain name), final score [away, home]]
+const AP_GAMES = [
+  ["2026-11-10T22:30:00-05:00","USC","home","Charleston",[44,105]],
+  ["2026-11-11T18:30:00-05:00","UK","home","Evansville"],
+  ["2026-11-11T19:00:00-05:00","TEX","home","South Dakota State"],
+  ["2026-11-11T19:00:00-05:00","MISS","home","Albany"],
+  ["2026-11-11T19:00:00-05:00","UNC","home","North Carolina Central"],
+  ["2026-11-11T19:30:00-05:00","VAN","home","Western Kentucky"],
+  ["2026-11-12T18:00:00-05:00","OKST","away","Tulsa"],
+  ["2026-11-12T18:30:00-05:00","CONN","away","OSU"],
+  ["2026-11-12T19:00:00-05:00","SC","away","Clemson"],
+  ["2026-11-12T19:00:00-05:00","MICH","away","Columbia"],
+  ["2026-11-12T19:00:00-05:00","DUKE","away","Norfolk State"],
+  ["2026-11-12T19:30:00-05:00","TCU","home","Southeastern Louisiana"],
+  ["2026-11-12T20:00:00-05:00","LOU","away","Ball State"],
+  ["2026-11-12T20:30:00-05:00","IOWA","home","Northern Iowa"],
+  ["2026-11-12T22:00:00-05:00","WASH","home","Cal State Bakersfield"],
+  ["2026-11-12T22:30:00-05:00","UCLA","home","Arizona"],
+  ["2026-11-13T11:30:00-05:00","OKLA","home","Oral Roberts"],
+  ["2026-11-13T17:30:00-05:00","WVU","home","Northwestern"],
+  ["2026-11-13T19:00:00-05:00","LSU","home","Denver"],
+  ["2026-11-14T13:00:00-05:00","ND","home","DePaul"],
+  ["2026-11-14T14:00:00-05:00","MINN","home","Kansas State"],
+  ["2026-11-14T16:30:00-05:00","NEB","home","Kansas"],
+  ["2026-11-15T13:00:00-05:00","MD","home","Columbia"],
+  ["2026-11-15T15:00:00-05:00","ILL","home","Southeast Missouri State"],
+];
+const TM = {};
+AP_WEEK.forEach(([rank, name, short, abbr, record, chg, color, alt]) => {
+  TM[abbr] = { id: abbr, name, short, abbr, color, alt, logo: null, rank, record, prev: rank + chg };
+});
+const plainTeam = (name) => ({ id: "o-" + name.toLowerCase().replace(/[^a-z]+/g, "-"), name, short: name, abbr: "", color: null, alt: null, logo: null, rank: null, record: "" });
+const SIM = {}; // simulated live scores, keyed by game id
+function allWeekGames() {
+  const todayKey = ymd(new Date());
+  return AP_GAMES.map((r, i) => {
+    const me = Object.assign({}, TM[r[1]]);
+    const other = TM[r[3]] ? Object.assign({}, TM[r[3]]) : plainTeam(r[3]);
+    const home = r[2] === "home" ? me : other, away = r[2] === "home" ? other : me;
+    const start = new Date(r[0]).getTime();
+    const g = { id: "w" + i, start, state: "pre", detail: "", nets: [], away, home };
+    away.score = home.score = null;
+    if (r[4]) { g.state = "post"; away.score = r[4][0]; home.score = r[4][1]; }
+    else if (S.simOn && ymd(new Date(start)) === todayKey) {
+      const s = SIM[g.id] || (SIM[g.id] = { a: 0, h: 0 });
+      g.state = "in"; g.detail = "simulated"; away.score = s.a; home.score = s.h;
+    }
+    return g;
+  });
+}
+const weekGames = () => allWeekGames().filter((g) => sameDay(new Date(g.start), S.date)); // only the day being viewed
+function loadDemo() {
+  S.demo = true; S.ranks = new Map();
+  S.teams = Object.values(TM);
+  S.poll = {
+    headline: "AP Top 25 · Week 1 (current) · copied from AP's page",
+    ranks: AP_WEEK.map((r) => ({ current: r[0], previous: r[0] + r[5], recordSummary: r[4], team: { id: r[3], displayName: r[2] } })),
+  };
+  S.games = weekGames();
+}
+setInterval(() => { // only runs if you press "Simulate live scores" in preview mode
+  if (!S.demo || !S.simOn) return;
+  Object.values(SIM).forEach((s) => { const r = Math.random(); if (r < 0.35) s.h += [2, 2, 3][Math.floor(Math.random() * 3)]; else if (r < 0.7) s.a += [2, 2, 3][Math.floor(Math.random() * 3)]; });
+  S.games = weekGames(); render();
+}, 3000);
+
+/* ============ search ============ */
+function words(t) { return (t.name + " " + (t.short || "")).toLowerCase().split(/[^a-z0-9]+/).filter(Boolean); }
+function teamMatches(t, tokens) {
+  const w = words(t), ab = (t.abbr || "").toLowerCase();
+  return tokens.every((k) => ab === k || w.some((x) => x.startsWith(k)));
+}
+function gameMatches(g, q) {
+  const tokens = q.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
+  if (!tokens.length) return true;
+  const both = [g.home, g.away];
+  if (tokens.every((k) => both.some((t) => teamMatches(t, [k])))) return true; // "south carolina" or "uconn texas"
+  return both.some((t) => teamMatches(t, tokens));
+}
+
+/* ============ rendering ============ */
+function baseFilter() {
+  return S.games.filter((g) => {
+    if (S.q.trim()) return gameMatches(g, S.q); // searching looks at ALL games
+    if (S.showAll) return true;
+    return g.home.rank || g.away.rank || isFav(g.home) || isFav(g.away);
+  });
+}
+function renderChips() {
+  const base = baseFilter();
+  $("tod").innerHTML = TOD.map(([k, l]) => {
+    const n = k === "all" ? base.length : base.filter((g) => todOf(g.start) === k).length;
+    return `<button class="chip ${S.tod === k ? "on" : ""}" data-tod="${k}">${l}<small>${n}</small></button>`;
+  }).join("");
+  const timeFiltered = base.filter((g) => S.tod === "all" || todOf(g.start) === S.tod);
+  const counts = {};
+  timeFiltered.forEach((g) => g.nets.forEach((n) => (counts[n] = (counts[n] || 0) + 1)));
+  const names = Object.keys(counts).sort((a, b) => counts[b] - counts[a] || a.localeCompare(b));
+  if (S.net !== "all" && !counts[S.net]) S.net = "all";
+  $("nets").hidden = !names.length;
+  $("nets").innerHTML = [`<button class="chip ${S.net === "all" ? "on" : ""}" data-net="all">All networks<small>${timeFiltered.length}</small></button>`]
+    .concat(names.map((n) => `<button class="chip ${S.net === n ? "on" : ""}" data-net="${esc(n)}">${esc(n)}<small>${counts[n]}</small></button>`)).join("");
+}
+function teamRow(t, other, state) {
+  const win = state === "post" && t.score != null && other.score != null && t.score > other.score;
+  const lose = state === "post" && t.score != null && other.score != null && t.score < other.score;
+  const logo = t.logo ? `<img src="${esc(t.logo)}" alt="" loading="lazy" onerror="this.remove()">` : esc((t.abbr || "").slice(0, 4));
+  const bg = t.color && lum(t.color) < 0.8 ? t.color : "#777";
+  return `<div class="row ${lose ? "lose" : ""}">
+    <div class="logo" style="background:${esc(bg)}">${logo}</div>
+    <div class="tn">${t.rank ? `<span class="rk">#${t.rank}</span>` : ""}${esc(t.name)}${isFav(t) ? '<span class="star">★</span>' : ""}${t.record ? `<span class="rec">${esc(t.record)}</span>` : ""}</div>
+    <div class="sc">${t.score != null && state !== "pre" ? t.score : ""}</div></div>`;
+}
+function card(g) {
+  const mine = isFav(g.home) || isFav(g.away);
+  const status = g.state === "pre" ? fmtTime(g.start) : g.state === "in" ? "LIVE · " + esc(g.detail || "") : "Final";
+  return `<div class="game ${mine ? "mine" : ""}">
+    <div class="meta"><span class="status ${g.state === "in" ? "live" : ""}">${status}</span>
+    <span class="right"><span class="nets">${g.nets.map((n) => `<span class="net">${esc(n)}</span>`).join("")}</span>${g.state === "pre" ? `<button class="cal" data-cal="${esc(g.id)}" aria-label="Add to calendar">🗓 Add</button>` : ""}</span></div>
+    ${teamRow(g.away, g.home, g.state)}${teamRow(g.home, g.away, g.state)}</div>`;
+}
+function render() {
+  renderChips();
+  const list = baseFilter()
+    .filter((g) => S.tod === "all" || todOf(g.start) === S.tod)
+    .filter((g) => S.net === "all" || g.nets.includes(S.net))
+    .sort((a, b) => a.start - b.start || a.id.localeCompare(b.id));
+  const mine = list.filter((g) => isFav(g.home) || isFav(g.away));
+  const rest = list.filter((g) => !mine.includes(g));
+  let html = "";
+  if (mine.length) html += `<div class="sec mine">★ ${esc(S.fav.short || S.fav.name)}</div>` + mine.map(card).join("");
+  if (S.tod === "all") {
+    for (const [k, l] of TOD.slice(1)) {
+      const part = rest.filter((g) => todOf(g.start) === k);
+      if (part.length) html += `<div class="sec">${l}</div>` + part.map(card).join("");
+    }
+  } else html += rest.map(card).join("");
+  if (!list.length) {
+    const why = S.q.trim() ? `No games match “${esc(S.q)}” on this day. Try another day with the arrows.` : S.showAll ? "No games on this day." : "No Top 25 games on this day. Try the arrows, or turn on “Show every game.”";
+    html = `<div class="empty">${why}</div>`;
+  }
+  if (!S.q.trim() && !favPlays()) html = nextCard() + html;
+  $("list").innerHTML = html;
+  const d = S.date, today = sameDay(d, new Date());
+  $("dateLbl").textContent = (today ? "Today · " : "") + d.toLocaleDateString([], { weekday: "short", month: "short", day: "numeric" });
+  $("foot").textContent = S.demo ? "Preview · AP Top 25, Week 1" : S.updated ? "Updated " + S.updated.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }) + " · scores refresh automatically" : "";
+  const b = $("banner");
+  if (S.demo) { b.hidden = false; b.innerHTML = "<b>Preview.</b> Ranks and games are the real AP Top 25 (Week 1) and each ranked team's game this week. TV networks and real live scores arrive from ESPN once the app is deployed. <button class=\"simbtn\" id=\"sim\">" + (S.simOn ? "■ Stop simulation" : "▶ Simulate live scores") + "</button>"; }
+  else b.hidden = true;
+}
+
+/* ============ modals ============ */
+function openModal(html) { $("sheet").innerHTML = html; $("modal").classList.add("open"); }
+function closeModal() { $("modal").classList.remove("open"); }
+$("modal").addEventListener("click", (e) => { if (e.target.id === "modal" || e.target.closest("[data-close]")) closeModal(); });
+
+function openTeamPicker(first) {
+  openModal(`<div class="sh"><h2>${first ? "Welcome! Pick your team" : "Pick your favorite team"}</h2><button data-close aria-label="Close">×</button></div>
+    <div class="note">The app wears your team's colors and puts your games first. Only saved on this device.</div>
+    <input id="tq" type="search" placeholder="Search schools…" autocomplete="off">
+    <div class="body" id="tl"></div>`);
+  const draw = () => {
+    const tokens = $("tq").value.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
+    const list = S.teams.filter((t) => !tokens.length || teamMatches(t, tokens)).slice(0, 80);
+    $("tl").innerHTML = (S.fav ? `<button class="pick" data-clear>✕ &nbsp;No favorite (default garnet &amp; black)</button>` : "") +
+      list.map((t) => `<button class="pick ${isFav(t) ? "sel" : ""}" data-id="${esc(t.id)}"><span class="dot" style="background:${esc(t.color || "#999")}"></span>${esc(t.name)}</button>`).join("");
+  };
+  $("tq").addEventListener("input", draw); draw();
+  $("tl").addEventListener("click", (e) => {
+    if (e.target.closest("[data-clear]")) S.fav = null;
+    else { const b = e.target.closest("[data-id]"); if (!b) return; const t = S.teams.find((x) => String(x.id) === b.dataset.id); S.fav = { id: t.id, name: t.name, short: t.short, color: t.color || DEFAULT_THEME.color, alt: t.alt }; }
+    store.set("fav", S.fav); store.set("picked", true); applyTheme(); closeModal(); S.nextKey = null; S.next = null; render(); ensureNext();
+  });
+}
+function openPoll() {
+  const ranks = S.poll && S.poll.ranks;
+  const body = ranks && ranks.length
+    ? ranks.map((r) => { const t = r.team || {}, mv = r.previous && r.previous !== r.current ? (r.previous > r.current ? "▲" + (r.previous - r.current) : "▼" + (r.current - r.previous)) : "";
+        return `<div class="pr"><b>${r.current}</b><span>${esc(t.displayName || t.location || "")}</span><span class="mv">${esc(r.recordSummary || "")} ${mv}</span></div>`; }).join("")
+    : `<div class="empty">The AP poll appears here once the live feed is connected. It updates every Monday.</div>`;
+  openModal(`<div class="sh"><h2>AP Top 25</h2><button data-close aria-label="Close">×</button></div>${S.poll && S.poll.headline ? `<div class="note">${esc(S.poll.headline)}</div>` : ""}<div class="body">${body}</div>`);
+}
+
+/* ============ favorite team: next game ============ */
+const favPlays = () => S.games.some((g) => isFav(g.home) || isFav(g.away));
+async function ensureNext() {
+  if (!S.fav || favPlays()) return;
+  const key = S.fav.id + "|" + ymd(new Date()) + "|" + (S.demo ? "d" : "l");
+  if (S.nextKey === key) return;
+  S.nextKey = key; S.next = null;
+  try {
+    let list;
+    if (S.demo) list = allWeekGames();
+    else { const j = await getJSON("schedule", { team: S.fav.id }); list = (j.events || []).map(normEvent).filter(Boolean); }
+    if (S.nextKey !== key) return; // they picked someone else while we were loading
+    const since = Date.now() - 3 * 3600e3;
+    list = list.filter((g) => (isFav(g.home) || isFav(g.away)) && g.state !== "post" && g.start >= since).sort((a, b) => a.start - b.start);
+    S.next = list[0] || null;
+  } catch (e) { S.next = null; }
+  render();
+}
+function nextCard() {
+  const n = S.next;
+  if (!n || !S.fav) return "";
+  const home = isFav(n.home), opp = home ? n.away : n.home;
+  const d = new Date(n.start), t0 = new Date(); t0.setHours(0, 0, 0, 0);
+  const days = Math.round((new Date(d.getFullYear(), d.getMonth(), d.getDate()) - t0) / 864e5);
+  const when = days === 0 ? "Today" : days === 1 ? "Tomorrow" : d.toLocaleDateString([], { weekday: "short", month: "short", day: "numeric" });
+  return `<div class="sec mine">★ ${esc(S.fav.short || S.fav.name)} · next game</div>
+    <div class="game mine" data-jump="${n.start}" style="cursor:pointer">
+      <div class="meta"><span class="status">${when} · ${fmtTime(n.start)}</span><span class="right"><span class="nets">${n.nets.map((x) => `<span class="net">${esc(x)}</span>`).join("")}</span><span class="net">See that day ›</span></span></div>
+      <div class="row"><div class="tn">${home ? "vs." : "at"} ${opp.rank ? `<span class="rk">#${opp.rank}</span>` : ""}${esc(opp.name)}</div></div></div>`;
+}
+
+/* ============ add to calendar ============ */
+const rankName = (t) => (t.rank ? "#" + t.rank + " " : "") + t.name;
+const gameTitle = (g) => rankName(g.away) + " at " + rankName(g.home);
+const icsDate = (ms) => new Date(ms).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+const icsEsc = (x) => String(x).replace(/\\/g, "\\\\").replace(/;/g, "\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
+const gameDesc = (g) => "Women's college basketball" + (g.nets.length ? " · TV: " + g.nets.join(", ") : "") + " · via Who Plays Today?";
+function makeICS(g, lead) {
+  const end = g.start + 2 * 3600e3;
+  return ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Who Plays Today//EN", "CALSCALE:GREGORIAN", "BEGIN:VEVENT",
+    "UID:" + g.id + "-" + icsDate(g.start) + "@whoplaystoday", "DTSTAMP:" + icsDate(Date.now()),
+    "DTSTART:" + icsDate(g.start), "DTEND:" + icsDate(end), "SUMMARY:" + icsEsc(gameTitle(g)), "DESCRIPTION:" + icsEsc(gameDesc(g)),
+    "BEGIN:VALARM", "ACTION:DISPLAY", "DESCRIPTION:" + icsEsc("Tip-off soon: " + gameTitle(g)), "TRIGGER:-PT" + lead + "M", "END:VALARM",
+    "END:VEVENT", "END:VCALENDAR"].join("\r\n");
+}
+function googleCalUrl(g) {
+  return "https://calendar.google.com/calendar/render?action=TEMPLATE&text=" + encodeURIComponent(gameTitle(g)) +
+    "&dates=" + icsDate(g.start) + "/" + icsDate(g.start + 2 * 3600e3) + "&details=" + encodeURIComponent(gameDesc(g));
+}
+function downloadICS(g, lead) {
+  try {
+    const url = URL.createObjectURL(new Blob([makeICS(g, lead)], { type: "text/calendar;charset=utf-8" }));
+    const a = document.createElement("a"); a.href = url; a.download = "tipoff-" + g.id + ".ics";
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 2000);
+  } catch (e) {}
+}
+function openCal(g) {
+  const lead = store.get("lead") || 30;
+  const day = new Date(g.start).toLocaleString([], { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+  openModal(`<div class="sh"><h2>Add to calendar</h2><button data-close aria-label="Close">×</button></div>
+    <div class="note"><b>${esc(gameTitle(g))}</b><br>${esc(day)}</div>
+    <div class="note">Remind me before tip-off:</div>
+    <div class="chips" style="padding:0 16px 8px">${[15, 30, 60].map((m) => `<button class="chip ${lead === m ? "on" : ""}" data-lead="${m}">${m === 60 ? "1 hour" : m + " min"}</button>`).join("")}</div>
+    <a class="opt" href="${esc(googleCalUrl(g))}" target="_blank" rel="noopener">Google Calendar</a>
+    <button class="opt alt" id="icsBtn">Apple / Outlook (.ics file)</button>
+    <div class="note" style="padding-top:4px">Google uses your own default reminder. The .ics file uses the time chosen above.</div>`);
+  $("sheet").onclick = (e) => {
+    const c = e.target.closest("[data-lead]");
+    if (c) { store.set("lead", Number(c.dataset.lead)); openCal(g); return; }
+    if (e.target.closest("#icsBtn")) downloadICS(g, store.get("lead") || 30);
+  };
+}
+
+/* ============ live refresh ============ */
+function schedule() {
+  clearTimeout(S.timer);
+  const anyLive = S.games.some((g) => g.state === "in");
+  const ms = anyLive ? 30000 : sameDay(S.date, new Date()) ? 120000 : 0;
+  if (ms) S.timer = setTimeout(() => { if (!document.hidden) refresh(true); else schedule(); }, ms);
+}
+async function refresh(quiet) {
+  try { await loadLive(); S.updated = new Date(); }
+  catch (e) { if (!quiet || S.demo) loadDemo(); } // a hiccup during a live refresh keeps the last good data
+  render(); schedule(); ensureNext();
+}
+
+/* ============ wire up ============ */
+$("tod").addEventListener("click", (e) => { const b = e.target.closest("[data-tod]"); if (b) { S.tod = b.dataset.tod; render(); } });
+$("nets").addEventListener("click", (e) => { const b = e.target.closest("[data-net]"); if (b) { S.net = b.dataset.net; render(); } });
+$("q").addEventListener("input", (e) => { S.q = e.target.value; render(); });
+$("showAll").addEventListener("change", (e) => { S.showAll = e.target.checked; render(); });
+const shift = (n) => { S.date = new Date(S.date.getFullYear(), S.date.getMonth(), S.date.getDate() + n); S.net = "all"; refresh(); };
+$("prev").addEventListener("click", () => shift(-1));
+$("next").addEventListener("click", () => shift(1));
+$("dateLbl").addEventListener("click", () => { S.date = new Date(); refresh(); });
+$("btnTeam").addEventListener("click", () => openTeamPicker(false));
+$("list").addEventListener("click", (e) => {
+  const j = e.target.closest("[data-jump]");
+  if (j) { const d = new Date(Number(j.dataset.jump)); S.date = new Date(d.getFullYear(), d.getMonth(), d.getDate()); S.net = "all"; refresh(); return; }
+  const b = e.target.closest("[data-cal]"); if (!b) return; const g = S.games.find((x) => x.id === b.dataset.cal); if (g) openCal(g); });
+$("btnPoll").addEventListener("click", openPoll);
+$("banner").addEventListener("click", (e) => { if (e.target.id === "sim") { S.simOn = !S.simOn; if (!S.simOn) Object.keys(SIM).forEach((k) => delete SIM[k]); S.games = weekGames(); render(); } });
+document.addEventListener("visibilitychange", () => { if (!document.hidden) refresh(true); });
+
+applyTheme();
+refresh().then(() => { if (!store.get("picked") && !S.fav) openTeamPicker(true); });
+</script>
+</body>
+</html>
